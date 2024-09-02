@@ -10,7 +10,7 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(os.path.join(os.getcwd(
 client = gspread.authorize(creds)
 
 # Acessando a planilha
-spreadsheet = client.open("CONTROLEGERENCIALPERDCOMP")  # Substitua pelo nome da sua planilha
+spreadsheet = client.open("CONTROLEGERENCIALPERDCOMP") 
 
 sheet1 = spreadsheet.worksheet("TRIBUTOS_COMPENSADOS")
 data = sheet1.get_all_records()
@@ -27,11 +27,46 @@ df_3 = pd.DataFrame(data3)
 #st.title("Dados do Google Sheets")
 #st.write(df_1, df_2, df_3)
 
-with st.form(key= "incluir_analista"):
+#st.title("")
+
+with st.form(key= "incluir_usuario"):
     input_nome = st.text_input(label= "Insira seu email")
     input_cargo= st.selectbox("Selecione seu cargo", options= ["Analista Tributário", "Gerente/Supervisor Tributário"])
-    input_cliente = st.text_input(label = "Insira o CNPJ do Cliente")
+    #input_cliente = st.text_input(label = "Insira o CNPJ do Cliente")
     input_button_submit = st.form_submit_button("Identificar-se")
 
-# if input_button_submit:
-#     st.write(df_1)
+if input_button_submit:
+    if input_cargo == "Analista Tributário":
+        #st.write(df_1)
+        st.subheader("Tributos Compensados")
+        with st.form(key= "incluir_compensacoes"):
+            input_perdcomp = st.text_input(label= "Número de PERDCOMP")
+            input_tipo_credito = st.text_input (label = "Tipo de Crédito")
+            input_periodo_credito = st.text_input( label= "Periodo do Crédito")
+            input_tributo = st.text_input(label = "Tributo")
+            input_cod_darf = st.text_input(label= "Código DARF")
+            #input_competencia = st.
+            input_button_submit = st.form_submit_button("Atualizar")
+        
+        # def read_data(sheet_name):
+        # sheet = spreadsheet.worksheet(sheet_name)
+        # data = sheet.get_all_records()
+        # return pd.DataFrame(data)
+    
+        # def add_data(sheet_name, new_row):
+        # sheet = spreadsheet.worksheet(sheet_name)
+        # sheet.append_row(new_row)
+
+        # def update_data(sheet_name, row, col, value):
+        # sheet = spreadsheet.worksheet(sheet_name)
+        # sheet.update_cell(row, col, value)
+
+        # def delete_data(sheet_name, row):
+        # sheet = spreadsheet.worksheet(sheet_name)
+        # sheet.delete_row(row)
+
+    else:
+        st.write(df_3)
+
+
+    
